@@ -1,0 +1,12 @@
+{
+  "title": "Macello Horse VFX",
+  "client": "Politecnico di Torino & Castello di Macello",
+  "year": "2025",
+  "category": "VFX Shot",
+  "description": "A VFX shot, at the Macello Castle in Pinerolo, for the Visual Effects class project.",
+  "challenge": "To create a realistic VFX shot with seamless character and cgi elements integration",
+  "solution": "Utilized advanced compositing techniques, 3D tracking, and color grading to seamlessly integrate all elements into the castle setting, ensuring a believable and immersive final shot.",
+  "services": ["Shooting", "Compositing", "Color Grading", "Editing"],
+  "toolsUsed": ["DaVinci Resolve, Nuke, Blender"],
+  "youtubeUrl": "https://youtu.be/GiTvk4IHhfk"
+}
