@@ -301,8 +301,13 @@ const galleryImages = computed(() => {
     .map((path) => path.replace("/public", ""));
 });
 
-useHead({
-  title: computed(() => `${project.value?.title || "Project"} — Directed by Giuseppe Caruso`),
+useSeoMeta({
+  title: computed(() => project.value?.title || "Project"),
+  ogTitle: computed(() => project.value?.title || "Project"),
+  description: computed(() => project.value?.description || project.value?.category),
+  ogDescription: computed(() => project.value?.description || project.value?.category),
+  ogImage: computed(() => project.value?.image),
+  twitterImage: computed(() => project.value?.image),
 });
 
 onMounted(() => {

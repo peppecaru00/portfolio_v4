@@ -4,17 +4,19 @@
     <div
       class="fixed inset-x-0 z-20 p-4 mix-blend-difference bg-transparent flex items-center justify-center"
     >
-      <NuxtLink
-        class="transition-all duration-1000 flex flex-col items-center opacity-100"
-        to="/"
-      >
-        <div class="transform text-4xl font-secondary tracking-widest text-center whitespace-nowrap">
-          Directed By 
-        </div>
-        <div class="text-5xl font-primary translate-y-[-1rem]  uppercase font-bold text-center whitespace-nowrap">
-          GIUSEPPE CARUSO
-        </div>
-      </NuxtLink>
+      <h1 class="m-0 p-0 leading-none flex flex-col items-center">
+        <NuxtLink
+          class="transition-all duration-1000 flex flex-col items-center opacity-100"
+          to="/"
+        >
+          <span class="transform text-4xl font-secondary tracking-widest text-center whitespace-nowrap block">
+            Directed By 
+          </span>
+          <span class="text-5xl font-primary translate-y-[-1rem]  uppercase font-bold text-center whitespace-nowrap block">
+            GIUSEPPE CARUSO
+          </span>
+        </NuxtLink>
+      </h1>
     </div>
 
     <!-- Navigation Header -->

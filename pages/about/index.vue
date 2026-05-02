@@ -18,7 +18,7 @@
               <NuxtLink to="mailto:giuseppe.caruso.sc@gmail.com">giuseppe.caruso.sc@gmail.com</NuxtLink>
             </li>
             <li class="flex gap-2">
-              <NuxtLink to="https://www.linkedin.com/in/giuseppe-caruso/" target="_blank">LinkedIn</NuxtLink>
+              <NuxtLink to="https://www.linkedin.com/in/giuseppecaruso00/" target="_blank">LinkedIn</NuxtLink>
               <span>giuseppecaruso00</span>
             </li>
             <li>
@@ -119,6 +119,13 @@
 
 <script setup>
 import { onMounted } from "vue";
+
+useSeoMeta({
+  title: "About",
+  ogTitle: "About",
+  description: "Learn more about Giuseppe Caruso, Cinema and Digital Media Engineer.",
+  ogDescription: "Learn more about Giuseppe Caruso, Cinema and Digital Media Engineer.",
+});
 
 onMounted(() => {
   document.body.className = "page-about";

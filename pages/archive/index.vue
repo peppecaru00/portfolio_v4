@@ -48,8 +48,11 @@
 import { onMounted } from "vue";
 import { useProjects } from "~/composables/useProjects";
 
-useHead({
-  title: "Archive — Directed by Giuseppe Caruso",
+useSeoMeta({
+  title: "Archive",
+  ogTitle: "Archive",
+  description: "Explore the complete portfolio and archive of works by Giuseppe Caruso.",
+  ogDescription: "Explore the complete portfolio and archive of works by Giuseppe Caruso.",
 });
 
 const { projects } = useProjects();

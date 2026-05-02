@@ -7,6 +7,13 @@ const featuredProjects = [...projects]
   .sort((a, b) => b.year.localeCompare(a.year))
   .slice(0, 6);
 
+useSeoMeta({
+  title: "Home",
+  ogTitle: "Home",
+  description: "Director & Filmmaker Portfolio. Giuseppe Caruso specializes in high-profile commercials, music videos, and documentary productions.",
+  ogDescription: "Director & Filmmaker Portfolio. Giuseppe Caruso specializes in high-profile commercials, music videos, and documentary productions.",
+});
+
 onMounted(() => {
   document.body.className = "home";
 });
