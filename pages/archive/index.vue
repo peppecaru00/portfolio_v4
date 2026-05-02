@@ -9,7 +9,7 @@
         <button class="button whitespace-nowrap">Music Video</button>
       </div>
     </nav>
-    <section class="container grid grid-cols-1 md:grid-cols-2 gap-2.5">
+    <section class="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2.5">
       <NuxtLink
         v-for="project in projects"
         :key="project.id"
@@ -18,19 +18,19 @@
       >
         <div class="relative overflow-hidden aspect-10/6">
           <figure :alt="project.title" class="cover">
-            <NuxtImg
-              v-if="project.image"
-              :alt="project.title"
-              class="cover transtion-opacity duration-300 opacity-100 group-hover:opacity-0 transition-opacity"
-              height="2160"
-              loading="lazy"
-              :src="project.image"
-              width="3840"
-              sizes="sm:100vw md:50vw"
-              format="webp"
-            />
+              <NuxtImg
+                v-if="project.image"
+                :alt="project.title"
+                :class="project.videoUrl && project.videoUrl.includes('/cover.') ? 'cover transtion-opacity duration-300 opacity-100 group-hover:opacity-0 transition-opacity' : 'cover transtion-opacity duration-300 opacity-100'"
+                height="2160"
+                loading="lazy"
+                :src="project.image"
+                width="3840"
+                sizes="sm:100vw md:50vw"
+                format="webp"
+              />
             <video
-              v-if="project.videoUrl"
+              v-if="project.videoUrl && project.videoUrl.includes('/cover.')"
               class="cover transition-opacity duration-300 pointer-events-none opacity-0 group-hover:opacity-100"
               loop
               muted

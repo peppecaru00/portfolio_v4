@@ -124,11 +124,15 @@
     </section>
 
     <!-- Gallery -->
-    <section v-if="galleryImages.length" class="container grid grid-cols-2 gap-2.5 pt-12 md:pt-44">
+    <section 
+      v-if="galleryImages.length" 
+      class="container grid gap-2.5 pt-12 md:pt-44"
+      :class="isVerticalGallery ? 'grid-cols-1 md:grid-cols-4' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'"
+    >
       <div
         v-for="(img, index) in galleryImages"
         :key="index"
-        :class="index % 3 === 0 ? 'col-span-full' : 'col-span-full md:col-span-1'"
+        :class="isVerticalGallery ? 'col-span-1' : (index % 3 === 0 ? 'col-span-full lg:col-span-2' : 'col-span-full md:col-span-1 lg:col-span-1')"
         :data-gallery-index="index"
       >
         <figure class="w-full h-auto rounded-md overflow-hidden">
@@ -157,14 +161,14 @@
               <NuxtImg
                 v-if="nextProject.image"
                 :alt="nextProject.title"
-                class="cover transition-opacity duration-300 opacity-100 group-hover:opacity-0 transition-opacity"
+                :class="nextProject.videoUrl && nextProject.videoUrl.includes('/cover.') ? 'cover transition-opacity duration-300 opacity-100 group-hover:opacity-0 transition-opacity' : 'cover transition-opacity duration-300 opacity-100'"
                 loading="lazy"
                 :src="nextProject.image"
                 sizes="sm:100vw md:50vw"
                 format="webp"
               />
               <video
-                v-if="nextProject.videoUrl"
+                v-if="nextProject.videoUrl && nextProject.videoUrl.includes('/cover.')"
                 class="cover transition-opacity duration-300 opacity-0 group-hover:opacity-100 pointer-events-none"
                 loop
                 muted
@@ -294,8 +298,24 @@ const formatKey = (key: string) => {
 
 const filteredMetaData = computed(() => {
   if (!project.value?.metaData) return {};
-  const { client, location, ...rest } = project.value.metaData as Record<string, any>;
-  return rest;
+  const meta = { ...project.value.metaData } as Record<string, any>;
+  
+  // Explicitly remove keys used in the top section
+  delete meta.client;
+  delete meta.location;
+  
+  // Remove any keys related to aspect ratio
+  return Object.keys(meta)
+    .filter(key => !key.toLowerCase().includes('aspect'))
+    .reduce((obj, key) => {
+      obj[key] = meta[key];
+      return obj;
+    }, {} as Record<string, any>);
+});
+
+const isVerticalGallery = computed(() => {
+  const meta = project.value?.metaData || {};
+  return meta.galleryAspectRatio === 'vertical' || meta.galleryAspectRation === 'vertical';
 });
 
 const allGalleries = import.meta.glob(
