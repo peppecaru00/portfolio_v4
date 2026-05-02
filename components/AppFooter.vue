@@ -23,15 +23,6 @@
         >
           LinkedIn
         </NuxtLink>
-        <NuxtLink
-          aria-label="Visit my Vimeo page"
-          class="hover:text-primary transition-colors"
-          to="https://vimeo.com/giuseppecarusodirector"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Vimeo
-        </NuxtLink>
       </nav>
     </section>
   </footer>
