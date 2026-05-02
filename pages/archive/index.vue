@@ -18,7 +18,7 @@
       >
         <div class="relative overflow-hidden aspect-10/6">
           <figure :alt="project.title" class="cover">
-            <img
+            <NuxtImg
               v-if="project.image"
               :alt="project.title"
               class="cover transtion-opacity duration-300 opacity-100 group-hover:scale-105 transition-transform"
@@ -26,6 +26,8 @@
               loading="lazy"
               :src="project.image"
               width="3840"
+              sizes="sm:100vw md:50vw"
+              format="webp"
             />
           </figure>
         </div>

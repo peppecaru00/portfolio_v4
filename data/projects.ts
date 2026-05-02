@@ -14,14 +14,8 @@ const metaFiles = import.meta.glob("/public/projects/*/meta.json", {
   eager: true,
   import: "default",
 });
-const coverFiles = import.meta.glob("/public/projects/*/cover.*", {
-  eager: true,
-  as: "url",
-});
-const videoFiles = import.meta.glob("/public/projects/*/*.mp4", {
-  eager: true,
-  as: "url",
-});
+const coverFiles = import.meta.glob("/public/projects/*/cover.*");
+const videoFiles = import.meta.glob("/public/projects/*/*.mp4");
 
 export const projects: Project[] = Object.entries(metaFiles).map(
   ([path, meta]: [string, any]) => {
@@ -47,21 +41,30 @@ export const projects: Project[] = Object.entries(metaFiles).map(
     let resolvedImage = "";
     let resolvedVideo = videoUrl;
 
+    // 1. Resolve Image from coverFiles
     for (const file of covers) {
-      if (file.endsWith(".mp4") || file.endsWith(".webm")) {
-        resolvedVideo = resolvedVideo || file.replace("/public", "");
-      } else {
+      if (!file.endsWith(".mp4") && !file.endsWith(".webm")) {
         resolvedImage = file.replace("/public", "");
       }
     }
 
+    // 2. Resolve Video with priority: meta.json > specific mp4 > cover mp4
     const projectVideoPrefix = `/public/projects/${id}/`;
-    const videos = Object.keys(videoFiles).filter((f) =>
+    const folderVideos = Object.keys(videoFiles).filter((f) =>
       f.startsWith(projectVideoPrefix),
     );
-    for (const file of videos) {
-      if (!file.includes("/cover.mp4")) {
-        resolvedVideo = resolvedVideo || file.replace("/public", "");
+
+    if (!resolvedVideo) {
+      // Find the first video that is NOT a cover
+      const mainVideo = folderVideos.find((f) => !f.includes("/cover."));
+      if (mainVideo) {
+        resolvedVideo = mainVideo.replace("/public", "");
+      } else {
+        // Fallback to cover video
+        const coverVideo = folderVideos.find((f) => f.includes("/cover."));
+        if (coverVideo) {
+          resolvedVideo = coverVideo.replace("/public", "");
+        }
       }
     }
 

@@ -3,12 +3,14 @@
     <!-- Hero -->
     <section id="hero-section" class="relative w-full overflow-hidden min-h-svh group bg-black flex items-center justify-center">
       <figure class="absolute inset-0 overflow-hidden size-full">
-        <img
+        <NuxtImg
           v-if="project.image && (!isPlaying && currentTime === 0)"
           :alt="project.title"
           class="size-full absolute inset-0 block object-cover object-center z-20 transition-opacity duration-300 opacity-100"
           loading="lazy"
           :src="project.image"
+          sizes="sm:100vw md:100vw"
+          format="webp"
         />
         <video
           v-if="project.videoUrl"
@@ -130,11 +132,13 @@
         :data-gallery-index="index"
       >
         <figure class="w-full h-auto rounded-md overflow-hidden">
-          <img
+          <NuxtImg
             :alt="`${project.title} - Image ${index + 1}`"
             class="w-full h-auto rounded-md opacity-100"
             loading="lazy"
             :src="img"
+            sizes="sm:100vw md:50vw"
+            format="webp"
           />
         </figure>
       </div>
@@ -150,12 +154,14 @@
         >
           <div class="w-full relative overflow-hidden aspect-[10/6] z-10 rounded-md">
             <figure class="cover" :alt="nextProject.title">
-              <img
+              <NuxtImg
                 v-if="nextProject.image"
                 :alt="nextProject.title"
                 class="cover transition-opacity duration-300 opacity-100 group-hover:scale-105 transition-transform"
                 loading="lazy"
                 :src="nextProject.image"
+                sizes="sm:100vw md:50vw"
+                format="webp"
               />
             </figure>
           </div>
