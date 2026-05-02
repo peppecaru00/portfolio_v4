@@ -6,33 +6,27 @@
           <div class="flex flex-col mt-auto gap-y-6 md:mt-0">
             <div class="content flex flex-col gap-y-[1em] [&amp;_a]:no-underline whitespace-pre-line text-lg md:text-xl">
               <p>
-                Giuseppe Caruso is a commercial director with an approach
-                deeply rooted in documentary language, working
-                internationally.<br />Recognized for his distinctive vision,
-                he has been invited to speak on the TEDx stage.
+                Master's student in Digital Media Engineering with expertise spanning technical development and creative production.
+              </p>
+              <p>
+                I help people bring their visions to life through compelling visual storytelling.
               </p>
             </div>
-            <NuxtLink
-              aria-label="Watch my TEDx "
-              class="button w-fit"
-              to="https://www.youtube.com/watch?v=yb0dHadCu4s"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Watch my TEDx
-            </NuxtLink>
           </div>
-          <ul class="text-base leading-tight flex flex-col gap-y-1 text-primary-dark [&amp;_a]:hover:text-primary [&amp;_a]:transition-colors hidden md:block">
+          <ul class="text-base leading-tight flex flex-col gap-y-1 text-primary-dark [&amp;_a]:hover:text-primary [&amp;_a]:transition-colors hidden md:block mt-8">
             <li>
-              <NuxtLink to="mailto:directedby@giuseppecaruso.com">directedby@giuseppecaruso.com</NuxtLink>
+              <NuxtLink to="mailto:giuseppe.caruso.sc@gmail.com">giuseppe.caruso.sc@gmail.com</NuxtLink>
             </li>
             <li class="flex gap-2">
-              <NuxtLink to="https://www.instagram.com/giuseppecarusodirector/" target="_blank">Instagram</NuxtLink>
               <NuxtLink to="https://www.linkedin.com/in/giuseppe-caruso/" target="_blank">LinkedIn</NuxtLink>
-              <NuxtLink to="https://vimeo.com/giuseppecarusodirector" target="_blank">Vimeo</NuxtLink>
+              <span>giuseppecaruso00</span>
             </li>
             <li>
-              <NuxtLink to="tel:+39 3347043970">+39 3347043970</NuxtLink>
+              <NuxtLink to="tel:+393925808834">+39 3925808834</NuxtLink>
+            </li>
+            <li class="pt-4">
+              Turin, Piedmont, Italy<br />
+              Noto, Syracuse, Sicily
             </li>
           </ul>
         </div>
@@ -42,53 +36,71 @@
       <article class="mt-16 md:mt-[30svh] flex flex-col gap-y-20 pb-20">
         <div class="content flex flex-col gap-y-[1em] [&amp;_a]:no-underline whitespace-pre-line text-lg">
           <p>
-            Giuseppe Caruso is making waves across the international
-            creative scene, specializing in high-profile commercials, music
-            videos, and documentary productions.
+            I am a Cinema and Digital Media Engineer, combining a strong technical foundation with a passion for creative production. Currently pursuing my Master's Degree at Politecnico di Torino, I specialize in the intersection of technology and visual arts.
           </p>
           <p>
-            Based between Barcelona and Milan, he brings a bold and
-            unmistakable Italian artistic vision to every project, turning
-            each set into a launchpad for innovative and emotionally
-            resonant storytelling.
+            My professional journey includes working as a Video Editor and Content Creator at Blank Spaces, where I managed complete post-production workflows—from color grading and sound design to motion graphics and CAD model rendering. Prior to this, I directed and produced visual communication media for Squadra Corse PoliTO, leading a team of designers and videomakers.
           </p>
           <p>
-            Caruso has already celebrated two national screenings of his
-            docu-film shot in Tanzania, focusing on the Hadzabe tribe. This
-            unique premiere not only highlighted his directorial talent but
-            also underscored his global perspective and deep commitment to
-            telling stories that matter.
-          </p>
-          <p>
-            A global citizen at heart, he thrives on the inspiration drawn
-            from working and living across cultures. Every destination and
-            human connection adds depth to his perspective and nourishes his
-            craft.
-          </p>
-          <p>
-            Recognized for his impact as an international director, Giuseppe
-            Caruso has also taken the TEDx stage as a speaker, a testament
-            to his growing status as a visionary director. With unwavering
-            determination and a passion for creativity and human connection,
-            he continues to redefine storytelling as an art form that
-            transcends all boundaries.
+            I thrive on bringing complex visions to life, utilizing my expertise in Video Production, Color Grading, 3D Modeling, and Generative AI. Whether operating a drone, crafting a 3D render in KeyShot, or composing visual effects in NukeX, my goal is always to deliver compelling and innovative storytelling.
           </p>
         </div>
-        <div class="flex flex-col gap-y-8">
-          <h4 class="text-xl text-center font-secondary text-primary-dark">
-            Trusted by Worldwide Agencies
-          </h4>
-          <ul class="flex flex-col text-lg gap-y-1">
-            <li class="text-center"><NuxtLink to="https://www.ted.com/" target="_blank">TED</NuxtLink></li>
-            <li class="text-center"><span>Juventus</span></li>
-            <li class="text-center"><span>Tom Ford</span></li>
-            <li class="text-center"><span>L'Officiel</span></li>
-            <li class="text-center"><span>Marni</span></li>
-            <li class="text-center"><span>Max Mara</span></li>
-            <li class="text-center"><NuxtLink to="https://www.youtube.com/@ProgettoHappiness" target="_blank">Progetto Happiness</NuxtLink></li>
-            <li class="text-center"><NuxtLink to="https://antiestatico.com/" target="_blank">Antiestatico</NuxtLink></li>
-            <li class="text-center"><NuxtLink to="https://www.phocuscreators.com/" target="_blank">Phocus Creator</NuxtLink></li>
-          </ul>
+        <div class="flex flex-col gap-y-12">
+          <div class="flex flex-col gap-y-4">
+            <h4 class="text-xl font-secondary text-primary-dark border-b border-primary-dark/30 pb-2">
+              Work Experience
+            </h4>
+            <div class="flex flex-col gap-y-6">
+              <div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
+                  <h5 class="text-lg font-bold">Video Editor and Content Creator</h5>
+                  <span class="text-sm text-primary-dark">Aug 2025 - Feb 2026</span>
+                </div>
+                <div class="text-primary-dark mb-2">Blank Spaces</div>
+                <p class="text-base text-balance opacity-80">Produced and edited video content for digital platforms. Managed complete post-production workflows including color grading, sound design, and motion graphics delivery. CAD models refining and rendering in KeyShot.</p>
+              </div>
+              <div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
+                  <h5 class="text-lg font-bold">Videomaker and Designer</h5>
+                  <span class="text-sm text-primary-dark">Oct 2023 - Mar 2025</span>
+                </div>
+                <div class="text-primary-dark mb-2">Squadra Corse PoliTO</div>
+                <p class="text-base text-balance opacity-80">Directed and produced visual communication media for university racing team. Managed team of designers and videomakers and digital presence across social media platforms.</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col gap-y-4">
+            <h4 class="text-xl font-secondary text-primary-dark border-b border-primary-dark/30 pb-2">
+              Education
+            </h4>
+            <div class="flex flex-col gap-y-6">
+              <div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
+                  <h5 class="text-lg font-bold">Master's Degree in Cinema & Digital Media Engineering</h5>
+                  <span class="text-sm text-primary-dark">08/2024 - Now</span>
+                </div>
+                <div class="text-primary-dark opacity-80">Politecnico di Torino</div>
+              </div>
+              <div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
+                  <h5 class="text-lg font-bold">Bachelor's Degree in Cinema & Digital Media Engineering</h5>
+                  <span class="text-sm text-primary-dark">08/2019 - 04/2024</span>
+                </div>
+                <div class="text-primary-dark opacity-80">Politecnico di Torino</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col gap-y-4">
+            <h4 class="text-xl font-secondary text-primary-dark border-b border-primary-dark/30 pb-2">
+              Technical Knowledge
+            </h4>
+            <ul class="flex flex-col text-base gap-y-3 opacity-80">
+              <li><strong class="text-white block font-medium">Video and Motion:</strong> DaVinci Resolve, Premiere Pro, After Effects, LOG and RAW workflows, Drone Operation.</li>
+              <li><strong class="text-white block font-medium">Design and 3D:</strong> Figma, Illustrator, Blender, Plasticity, 3D Printing, KeyShot, CAD Rendering.</li>
+              <li><strong class="text-white block font-medium">Photography and Imaging:</strong> Lightroom, Studio Photography, Generative AI, ComfyUI.</li>
+              <li><strong class="text-white block font-medium">Audio:</strong> Audition, Reaper, Microphone setup and Calibration.</li>
+            </ul>
+          </div>
         </div>
       </article>
     </div>

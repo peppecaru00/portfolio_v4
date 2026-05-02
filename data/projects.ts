@@ -18,6 +18,10 @@ const coverFiles = import.meta.glob("/public/projects/*/cover.*", {
   eager: true,
   as: "url",
 });
+const videoFiles = import.meta.glob("/public/projects/*/*.mp4", {
+  eager: true,
+  as: "url",
+});
 
 export const projects: Project[] = Object.entries(metaFiles).map(
   ([path, meta]: [string, any]) => {
@@ -48,6 +52,16 @@ export const projects: Project[] = Object.entries(metaFiles).map(
         resolvedVideo = resolvedVideo || file.replace("/public", "");
       } else {
         resolvedImage = file.replace("/public", "");
+      }
+    }
+
+    const projectVideoPrefix = `/public/projects/${id}/`;
+    const videos = Object.keys(videoFiles).filter((f) =>
+      f.startsWith(projectVideoPrefix),
+    );
+    for (const file of videos) {
+      if (!file.includes("/cover.mp4")) {
+        resolvedVideo = resolvedVideo || file.replace("/public", "");
       }
     }
 
