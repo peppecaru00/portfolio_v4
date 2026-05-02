@@ -157,12 +157,22 @@
               <NuxtImg
                 v-if="nextProject.image"
                 :alt="nextProject.title"
-                class="cover transition-opacity duration-300 opacity-100 group-hover:scale-105 transition-transform"
+                class="cover transition-opacity duration-300 opacity-100 group-hover:opacity-0 transition-opacity"
                 loading="lazy"
                 :src="nextProject.image"
                 sizes="sm:100vw md:50vw"
                 format="webp"
               />
+              <video
+                v-if="nextProject.videoUrl"
+                class="cover transition-opacity duration-300 opacity-0 group-hover:opacity-100 pointer-events-none"
+                loop
+                muted
+                playsinline
+                preload="auto"
+                :src="nextProject.videoUrl"
+                autoplay
+              ></video>
             </figure>
           </div>
           <div class="-mt-4.5 text-center relative z-20">
