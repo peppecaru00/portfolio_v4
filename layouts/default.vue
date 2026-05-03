@@ -2,7 +2,7 @@
   <div class="flex flex-col min-h-svh" id="layout-wrapper">
     <!-- Mouse Follower -->
     <div
-      class="fixed top-0 left-0 z-50 hidden bg-white rounded-full pointer-events-none follower md:block -translate-y-2 -translate-x-2 size-4 mix-blend-difference opacity-100"
+      class="fixed top-0 left-0 z-[9999] hidden bg-white rounded-full pointer-events-none follower md:block -translate-y-2 -translate-x-2 size-4 mix-blend-difference opacity-100"
     ></div>
 
     <AppHeader />
@@ -40,11 +40,29 @@ onMounted(() => {
     mouseY = e.clientY;
   };
 
+  const handleFullscreenChange = () => {
+    const follower = document.querySelector(".follower");
+    if (!follower) return;
+
+    const fsElement = document.fullscreenElement || document.webkitFullscreenElement;
+
+    if (fsElement) {
+      fsElement.appendChild(follower);
+    } else {
+      const wrapper = document.getElementById("layout-wrapper");
+      if (wrapper) wrapper.prepend(follower);
+    }
+  };
+
   window.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("fullscreenchange", handleFullscreenChange);
+  document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
   requestRef = requestAnimationFrame(updatePosition);
 
   onBeforeUnmount(() => {
     window.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
     cancelAnimationFrame(requestRef);
   });
 });
