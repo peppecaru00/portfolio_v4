@@ -15,8 +15,8 @@ const metaFiles = import.meta.glob("/public/projects/*/meta.json", {
   eager: true,
   import: "default",
 });
-const coverFiles = import.meta.glob("/public/projects/**/*");
-const videoFiles = import.meta.glob("/public/projects/**/*.mp4");
+const coverFiles = import.meta.glob("/public/projects/**/*.{jpg,jpeg,png,webp,mp4,webm,mov}");
+const videoFiles = import.meta.glob("/public/projects/**/*.{mp4,webm,mov}");
 
 export const projects: Project[] = Object.entries(metaFiles).map(
   ([path, meta]: [string, any]) => {
