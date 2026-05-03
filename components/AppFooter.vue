@@ -8,7 +8,7 @@
         <NuxtLink
           aria-label="Visit my Instagram page"
           class="hover:text-primary transition-colors"
-          to="https://www.instagram.com/giuseppecarusodirector/"
+          to="https://www.instagram.com/peppecaruso.it/"
           rel="noopener noreferrer"
           target="_blank"
         >
@@ -17,7 +17,7 @@
         <NuxtLink
           aria-label="Visit my LinkedIn page"
           class="hover:text-primary transition-colors"
-          to="https://www.linkedin.com/in/giuseppe-caruso/"
+          to="https://www.linkedin.com/in/giuseppecaruso00/"
           rel="noopener noreferrer"
           target="_blank"
         >

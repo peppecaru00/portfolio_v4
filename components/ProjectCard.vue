@@ -3,12 +3,15 @@
     class="project-card"
     :class="{ 'is-large': large }"
     @click="$emit('click', project.id)"
+    @mouseenter="playVideo"
+    @mouseleave="pauseVideo"
   >
     <div class="project-image-wrap">
       <NuxtImg
         :src="project.image"
         :alt="project.title"
         class="project-image"
+        :class="{ 'opacity-0': isHovered && project.coverVideo }"
         :width="large ? 1600 : 800"
         :height="large ? 900 : 450"
         sizes="(max-width: 768px) 100vw, 50vw"
@@ -16,6 +19,18 @@
         format="webp"
         loading="lazy"
       />
+      <video
+        v-if="project.coverVideo"
+        ref="videoRef"
+        :src="project.coverVideo"
+        class="project-video"
+        :class="{ 'opacity-100': isHovered }"
+        muted
+        loop
+        playsinline
+        preload="auto"
+        autoplay
+      ></video>
     </div>
     <div class="project-info">
       <span class="project-year">{{ project.year }}</span>
@@ -28,9 +43,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import type { Project } from "~/data/projects";
 
-defineProps<{
+const props = defineProps<{
   project: Project;
   large?: boolean;
 }>();
@@ -38,6 +54,23 @@ defineProps<{
 defineEmits<{
   click: [id: string];
 }>();
+
+const videoRef = ref<HTMLVideoElement | null>(null);
+const isHovered = ref(false);
+
+const playVideo = () => {
+  isHovered.value = true;
+  if (videoRef.value) {
+    videoRef.value.play().catch(() => {});
+  }
+};
+
+const pauseVideo = () => {
+  isHovered.value = false;
+  if (videoRef.value) {
+    videoRef.value.pause();
+  }
+};
 </script>
 
 <style scoped>
@@ -65,11 +98,29 @@ defineEmits<{
   object-fit: cover;
   transition:
     transform 0.9s var(--transition-smooth),
-    filter 0.6s ease;
+    filter 0.6s ease,
+    opacity 0.6s ease;
   filter: brightness(0.9);
 }
 
-.project-card:hover .project-image {
+.project-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  z-index: 1;
+  transition:
+    opacity 0.6s ease,
+    transform 0.9s var(--transition-smooth),
+    filter 0.6s ease;
+  filter: brightness(0.9);
+  pointer-events: none;
+}
+
+.project-card:hover .project-image,
+.project-card:hover .project-video {
   transform: scale(1.04);
   filter: brightness(0.65);
 }

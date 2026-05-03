@@ -2,20 +2,12 @@
   <div v-if="project">
     <!-- Hero -->
     <section id="hero-section" class="relative w-full overflow-hidden min-h-svh group bg-black flex items-center justify-center">
-      <figure class="absolute inset-0 overflow-hidden size-full">
-        <NuxtImg
-          v-if="project.image && (!isPlaying && currentTime === 0)"
-          :alt="project.title"
-          class="size-full absolute inset-0 block object-cover object-center z-20 transition-opacity duration-300 opacity-100"
-          loading="lazy"
-          :src="project.image"
-          sizes="sm:100vw md:100vw"
-          format="webp"
-        />
+      <figure class="relative w-full max-w-[calc(100svh*16/9)] aspect-video overflow-hidden">
+
         <video
           v-if="project.videoUrl"
           ref="videoRef"
-          class="absolute w-full h-full object-cover top-0 left-0 z-10 transition-opacity duration-300 opacity-100"
+          class="absolute w-full h-full object-contain top-0 left-0 z-10 transition-opacity duration-300 opacity-100"
           playsinline
           preload="metadata"
           :src="project.videoUrl"
@@ -114,7 +106,7 @@
             <div class="text-sm uppercase text-primary-dark">
               {{ formatKey(String(key)) }}
             </div>
-            <div class="text-lg">
+            <div class="text-lg break-words">
               <span v-if="Array.isArray(value)">{{ value.join(", ") }}</span>
               <span v-else>{{ value }}</span>
             </div>
@@ -303,6 +295,11 @@ const filteredMetaData = computed(() => {
   // Explicitly remove keys used in the top section
   delete meta.client;
   delete meta.location;
+  
+  // Explicitly remove raw URLs that shouldn't display in text
+  delete meta.youtubeUrl;
+  delete meta.vimeoUrl;
+  delete meta.videoUrl;
   
   // Remove any keys related to aspect ratio
   return Object.keys(meta)

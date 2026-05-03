@@ -1682,6 +1682,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 body ::-moz-selection {

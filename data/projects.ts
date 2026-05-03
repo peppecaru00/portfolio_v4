@@ -8,14 +8,15 @@ export interface Project {
   aspectRatio?: string;
   description?: string;
   metaData?: Record<string, any>;
+  coverVideo?: string;
 }
 
 const metaFiles = import.meta.glob("/public/projects/*/meta.json", {
   eager: true,
   import: "default",
 });
-const coverFiles = import.meta.glob("/public/projects/*/cover.*");
-const videoFiles = import.meta.glob("/public/projects/*/*.mp4");
+const coverFiles = import.meta.glob("/public/projects/**/*");
+const videoFiles = import.meta.glob("/public/projects/**/*.mp4");
 
 export const projects: Project[] = Object.entries(metaFiles).map(
   ([path, meta]: [string, any]) => {
@@ -33,39 +34,38 @@ export const projects: Project[] = Object.entries(metaFiles).map(
       ...rest
     } = meta;
 
-    const projectCoverPrefix = `/public/projects/${id}/cover.`;
-    const covers = Object.keys(coverFiles).filter((f) =>
-      f.startsWith(projectCoverPrefix),
+    const projectPathPrefix = `/public/projects/${id}/`;
+    const assets = Object.keys(coverFiles).filter((f) =>
+      f.replace(/\\/g, "/").startsWith(projectPathPrefix),
     );
 
     let resolvedImage = "";
     let resolvedVideo = videoUrl;
+    let coverVideoUrl = "";
 
-    // 1. Resolve Image from coverFiles
-    for (const file of covers) {
-      if (!file.endsWith(".mp4") && !file.endsWith(".webm")) {
-        resolvedImage = file.replace("/public", "");
+    // 1. Resolve Image and Cover Video from assets
+    for (const file of assets) {
+      const lowerFile = file.toLowerCase();
+      const isVideo = lowerFile.endsWith(".mp4") || lowerFile.endsWith(".webm");
+      const isCover = lowerFile.includes("cover.");
+
+      if (isCover) {
+        if (isVideo) {
+          coverVideoUrl = file.replace("/public", "");
+        } else {
+          resolvedImage = file.replace("/public", "");
+        }
       }
     }
 
-    // 2. Resolve Video with priority: meta.json > specific mp4 > cover mp4
-    const projectVideoPrefix = `/public/projects/${id}/`;
-    const folderVideos = Object.keys(videoFiles).filter((f) =>
-      f.startsWith(projectVideoPrefix),
+    // 2. Resolve Main Video
+    const mainVideoFile = Object.keys(videoFiles).find((f) => 
+      f.startsWith(projectPathPrefix) && !f.includes("/cover.")
     );
 
-    if (!resolvedVideo) {
-      // Find the first video that is NOT a cover
-      const mainVideo = folderVideos.find((f) => !f.includes("/cover."));
-      if (mainVideo) {
-        resolvedVideo = mainVideo.replace("/public", "");
-      } else {
-        // Fallback to cover video
-        const coverVideo = folderVideos.find((f) => f.includes("/cover."));
-        if (coverVideo) {
-          resolvedVideo = coverVideo.replace("/public", "");
-        }
-      }
+    // If meta.json didn't provide a videoUrl, try to find the best match
+    if (!resolvedVideo && mainVideoFile) {
+      resolvedVideo = mainVideoFile.replace("/public", "");
     }
 
     return {
@@ -78,6 +78,7 @@ export const projects: Project[] = Object.entries(metaFiles).map(
       aspectRatio: aspectRatio,
       description: description,
       metaData: rest,
+      coverVideo: coverVideoUrl,
     };
   },
 );
