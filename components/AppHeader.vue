@@ -47,7 +47,6 @@
         <div class="flex justify-end transition-opacity duration-1000 opacity-100">
           <nav class="flex gap-x-2 hidden md:flex">
             <button class="uppercase cursor-pointer hover:text-primary transition-colors text-primary">en</button>
-            <button class="uppercase cursor-pointer hover:text-primary transition-colors text-primary-dark">es</button>
             <button class="uppercase cursor-pointer hover:text-primary transition-colors text-primary-dark">it</button>
           </nav>
           <button @click="isMenuOpen = !isMenuOpen" class="uppercase cursor-pointer md:hidden">Menu</button>
@@ -85,7 +84,6 @@
         </ul>
         <div class="flex gap-x-4">
           <button class="text-sm uppercase text-primary">English</button>
-          <button class="text-sm uppercase text-primary-dark hover:text-primary">Spanish</button>
           <button class="text-sm uppercase text-primary-dark hover:text-primary">Italian</button>
         </div>
         <div>
