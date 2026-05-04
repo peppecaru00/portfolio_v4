@@ -133,7 +133,7 @@
         :class="isVerticalGallery ? 'col-span-1' : (index % 3 === 0 ? 'col-span-full lg:col-span-2' : 'col-span-full md:col-span-1 lg:col-span-1')"
         :data-gallery-index="index"
       >
-        <figure class="w-full h-auto rounded-md overflow-hidden">
+        <figure class="w-full h-auto rounded-md overflow-hidden reveal-fade">
           <NuxtImg
             :alt="`${project.title} - Image ${index + 1}`"
             class="w-full h-auto rounded-md opacity-100"
@@ -151,7 +151,7 @@
       <article class="w-full max-w-2xl mx-auto relative">
         <h3 class="mb-2 text-center uppercase text-primary-dark">Next Project</h3>
         <NuxtLink
-          class="relative overflow-hidden group rounded-md transition-opacity duration-300 block"
+          class="relative overflow-hidden group rounded-md transition-opacity duration-300 block reveal-fade"
           :to="`/archive/${nextProject.id}`"
         >
           <div class="w-full relative overflow-hidden aspect-[10/6] z-10 rounded-md">
@@ -363,5 +363,22 @@ useSeoMeta({
 
 onMounted(() => {
   document.body.className = "page-project";
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          // Optionally unobserve after revealing
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+  );
+
+  document.querySelectorAll(".reveal-fade").forEach((el) => {
+    observer.observe(el);
+  });
 });
 </script>

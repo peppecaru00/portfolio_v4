@@ -8,7 +8,7 @@ const featuredProjects = [...projects]
   .sort((a, b) => b.year.localeCompare(a.year))
   .slice(0, 6);
 
-const heroVideoUrl = resolveMediaUrl("/hero-bg.mp4");
+const heroVideoUrl = resolveMediaUrl("https://peppecaruso-portfolio-storage.s3.eu-north-1.amazonaws.com/showreel_2.mp4");
 
 useSeoMeta({
   title: "Home",
@@ -19,6 +19,22 @@ useSeoMeta({
 
 onMounted(() => {
   document.body.className = "home";
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  document.querySelectorAll(".reveal-fade").forEach((el) => {
+    observer.observe(el);
+  });
 });
 </script>
 
@@ -43,7 +59,7 @@ onMounted(() => {
       <NuxtLink
         v-for="project in featuredProjects"
         :key="project.id"
-        class="px-5 opacity-40 group hover:opacity-100 transition-opacity cursor-pointer flex-1 text-center nth-[4]:hidden nth-[5]:hidden xl:nth-[4]:block 2xl:nth-[5]:block"
+        class="px-5 opacity-40 group hover:opacity-100 transition-opacity cursor-pointer flex-1 text-center nth-[4]:hidden nth-[5]:hidden xl:nth-[4]:block 2xl:nth-[5]:block reveal-fade"
         :to="`/archive/${project.id}`"
       >
         <h3 class="text-[36px] font-secondary -mb-4">{{ project.category }}</h3>

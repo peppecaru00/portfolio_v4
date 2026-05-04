@@ -10,7 +10,7 @@
       <NuxtLink
         v-for="project in projects"
         :key="project.id"
-        class="relative overflow-hidden group rounded-md transition-opacity duration-500 opacity-100"
+        class="relative overflow-hidden group rounded-md transition-opacity duration-500 opacity-100 reveal-fade"
         :to="`/archive/${project.id}`"
       >
         <div class="relative overflow-hidden aspect-10/6">
@@ -66,5 +66,21 @@ const { projects } = useProjects();
 
 onMounted(() => {
   document.body.className = "page-archive";
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+  );
+
+  document.querySelectorAll(".reveal-fade").forEach((el) => {
+    observer.observe(el);
+  });
 });
 </script>
