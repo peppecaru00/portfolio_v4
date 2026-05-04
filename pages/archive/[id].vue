@@ -347,9 +347,10 @@ const allGalleries = import.meta.glob(
 const galleryImages = computed(() => {
   if (!project.value) return [];
   const prefix = `/public/projects/${project.value.id}/images/`;
+  const baseURL = useRuntimeConfig().app.baseURL;
   return Object.keys(allGalleries)
     .filter((path) => path.startsWith(prefix))
-    .map((path) => path.replace("/public", ""));
+    .map((path) => `${baseURL}${path.replace("/public", "")}`);
 });
 
 useSeoMeta({
