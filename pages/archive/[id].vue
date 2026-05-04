@@ -159,20 +159,20 @@
               <NuxtImg
                 v-if="nextProject.image"
                 :alt="nextProject.title"
-                :class="nextProject.videoUrl && nextProject.videoUrl.includes('/cover.') ? 'cover transition-opacity duration-300 opacity-100 group-hover:opacity-0 transition-opacity' : 'cover transition-opacity duration-300 opacity-100'"
+                :class="nextProject.coverVideo ? 'cover transition-opacity duration-300 opacity-100 group-hover:opacity-0' : 'cover transition-opacity duration-300 opacity-100'"
                 loading="lazy"
                 :src="nextProject.image"
                 sizes="sm:100vw md:50vw"
                 format="webp"
               />
               <video
-                v-if="nextProject.videoUrl && nextProject.videoUrl.includes('/cover.')"
+                v-if="nextProject.coverVideo"
                 class="cover transition-opacity duration-300 opacity-0 group-hover:opacity-100 pointer-events-none"
                 loop
                 muted
                 playsinline
                 preload="auto"
-                :src="nextProject.videoUrl"
+                :src="nextProject.coverVideo"
                 autoplay
               ></video>
             </figure>

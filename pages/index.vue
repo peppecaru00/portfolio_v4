@@ -1,11 +1,14 @@
 <script setup>
 import { onMounted } from "vue";
 import { projects } from "~/data/projects";
+import { resolveMediaUrl } from "~/utils/media";
 
 // Sort projects by year descending and take the first 6
 const featuredProjects = [...projects]
   .sort((a, b) => b.year.localeCompare(a.year))
   .slice(0, 6);
+
+const heroVideoUrl = resolveMediaUrl("/hero-bg.mp4");
 
 useSeoMeta({
   title: "Home",
@@ -29,7 +32,7 @@ onMounted(() => {
         muted
         playsinline
         preload="auto"
-        src="/hero-bg.mp4"
+        :src="heroVideoUrl"
       ></video>
     </figure>
     

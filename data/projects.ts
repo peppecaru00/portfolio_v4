@@ -1,3 +1,5 @@
+import { resolveMediaUrl } from "~/utils/media";
+
 export interface Project {
   id: string;
   title: string;
@@ -32,6 +34,7 @@ export const projects: Project[] = Object.entries(metaFiles).map(
       videoUrl,
       aspectRatio,
       description,
+      coverVideo,
       ...rest
     } = meta;
 
@@ -42,7 +45,7 @@ export const projects: Project[] = Object.entries(metaFiles).map(
 
     let resolvedImage = "";
     let resolvedVideo = videoUrl;
-    let coverVideoUrl = "";
+    let coverVideoUrl = coverVideo || "";
 
     // 1. Resolve Image and Cover Video from assets
     for (const file of assets) {
@@ -80,11 +83,11 @@ export const projects: Project[] = Object.entries(metaFiles).map(
       category: category || "",
       year: year || "",
       image: resolvedImage,
-      videoUrl: resolvedVideo,
+      videoUrl: resolveMediaUrl(resolvedVideo),
       aspectRatio: aspectRatio,
       description: description,
       metaData: rest,
-      coverVideo: coverVideoUrl,
+      coverVideo: resolveMediaUrl(coverVideoUrl),
     };
   },
 ).sort((a, b) => b.year.localeCompare(a.year));

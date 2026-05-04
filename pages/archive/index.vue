@@ -18,7 +18,7 @@
               <NuxtImg
                 v-if="project.image"
                 :alt="project.title"
-                :class="project.videoUrl && project.videoUrl.includes('/cover.') ? 'cover transtion-opacity duration-300 opacity-100 group-hover:opacity-0 transition-opacity' : 'cover transtion-opacity duration-300 opacity-100'"
+                :class="project.coverVideo ? 'cover transition-opacity duration-300 opacity-100 group-hover:opacity-0' : 'cover transition-opacity duration-300 opacity-100'"
                 height="2160"
                 loading="lazy"
                 :src="project.image"
@@ -27,13 +27,13 @@
                 format="webp"
               />
             <video
-              v-if="project.videoUrl && project.videoUrl.includes('/cover.')"
+              v-if="project.coverVideo"
               class="cover transition-opacity duration-300 pointer-events-none opacity-0 group-hover:opacity-100"
               loop
               muted
               playsinline
               preload="auto"
-              :src="project.videoUrl"
+              :src="project.coverVideo"
               autoplay
             ></video>
           </figure>
