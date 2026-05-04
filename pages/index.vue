@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from "vue";
-const { projects } = useProjects();
+import { projects } from "~/data/projects";
 
 // Sort projects by year descending and take the first 6
 const featuredProjects = [...projects]
@@ -29,7 +29,7 @@ onMounted(() => {
         muted
         playsinline
         preload="auto"
-        :src="`${useRuntimeConfig().app.baseURL}/hero-bg.mp4`"
+        src="/hero-bg.mp4"
       ></video>
     </figure>
     

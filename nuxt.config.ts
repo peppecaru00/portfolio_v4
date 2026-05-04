@@ -10,12 +10,7 @@ export default defineNuxtConfig({
     ]
   },
   css: ["~/assets/css/main.css"],
-  ssr: true,
-  nitro: {
-    preset: 'github-pages'
-  },
   app: {
-    baseURL: process.env.NODE_ENV === 'production' ? '/portfolio_v4' : '',
     pageTransition: { name: "page", mode: "out-in" },
     head: {
       title: "Directed by Giuseppe Caruso",
