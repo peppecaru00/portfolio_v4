@@ -15,12 +15,13 @@ const metaFiles = import.meta.glob("/public/projects/*/meta.json", {
   eager: true,
   import: "default",
 });
-const coverFiles = import.meta.glob("/public/projects/**/*.{jpg,jpeg,png,webp,mp4,webm,mov}");
+const coverFiles = import.meta.glob("/public/projects/**/*.{jpg,jpeg,png,webp,gif,mp4,webm,mov}");
 const videoFiles = import.meta.glob("/public/projects/**/*.{mp4,webm,mov}");
 
 export const projects: Project[] = Object.entries(metaFiles).map(
   ([path, meta]: [string, any]) => {
-    const parts = path.split("/");
+    const normalizedPath = path.replace(/\\/g, "/");
+    const parts = normalizedPath.split("/");
     const id = parts[parts.length - 2];
 
     // Extract specific properties and keep the rest in metaData
@@ -46,7 +47,7 @@ export const projects: Project[] = Object.entries(metaFiles).map(
     // 1. Resolve Image and Cover Video from assets
     for (const file of assets) {
       const lowerFile = file.toLowerCase();
-      const isVideo = lowerFile.endsWith(".mp4") || lowerFile.endsWith(".webm");
+      const isVideo = lowerFile.endsWith(".mp4") || lowerFile.endsWith(".webm") || lowerFile.endsWith(".mov");
       const isCover = lowerFile.includes("cover.");
 
       if (isCover) {
@@ -59,13 +60,18 @@ export const projects: Project[] = Object.entries(metaFiles).map(
     }
 
     // 2. Resolve Main Video
-    const mainVideoFile = Object.keys(videoFiles).find((f) => 
-      f.startsWith(projectPathPrefix) && !f.includes("/cover.")
-    );
+    const mainVideoFile = Object.keys(videoFiles).find((f) => {
+      const normalizedF = f.replace(/\\/g, "/");
+      return normalizedF.startsWith(projectPathPrefix) && !normalizedF.includes("/cover.");
+    });
 
     // If meta.json didn't provide a videoUrl, try to find the best match
-    if (!resolvedVideo && mainVideoFile) {
-      resolvedVideo = mainVideoFile.replace("/public", "");
+    if (!resolvedVideo) {
+      if (mainVideoFile) {
+        resolvedVideo = mainVideoFile.replace("/public", "");
+      } else if (coverVideoUrl) {
+        resolvedVideo = coverVideoUrl;
+      }
     }
 
     return {
@@ -81,4 +87,4 @@ export const projects: Project[] = Object.entries(metaFiles).map(
       coverVideo: coverVideoUrl,
     };
   },
-);
+).sort((a, b) => b.year.localeCompare(a.year));

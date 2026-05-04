@@ -2,11 +2,8 @@
   <div class="flex flex-col pt-24 pb-12 md:pt-36 md:pb-24 gap-y-12 md:gap-y-24">
     <nav class="container items-center justify-center overflow-x-scroll text-center scrollbar-none">
       <div class="inline-flex gap-x-2.5">
-        <button class="active button whitespace-nowrap">All</button>
-        <button class="button whitespace-nowrap">Commercial</button>
-        <button class="button whitespace-nowrap">Creative Short</button>
-        <button class="button whitespace-nowrap">Documentary</button>
-        <button class="button whitespace-nowrap">Music Video</button>
+        <button class="active button whitespace-nowrap">Videos</button>
+        <button class="button whitespace-nowrap">Photos</button>
       </div>
     </nav>
     <section class="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2.5">

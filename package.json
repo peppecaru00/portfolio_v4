@@ -17,6 +17,7 @@
   "devDependencies": {
     "@nuxt/image": "^1.10.0",
     "@tailwindcss/vite": "^4.2.4",
+    "image-size": "^2.0.2",
     "tailwindcss": "^4.2.4",
     "typescript": "^5.8.0"
   }

@@ -2,7 +2,13 @@
   <div v-if="project">
     <!-- Hero -->
     <section id="hero-section" class="relative w-full overflow-hidden min-h-svh group bg-black flex items-center justify-center">
-      <figure class="relative w-full max-w-[calc(100svh*16/9)] aspect-video overflow-hidden">
+      <figure 
+        class="relative w-full overflow-hidden"
+        :style="{ 
+          aspectRatio: videoRatio,
+          maxWidth: `calc(100svh * ${videoRatio})`
+        }"
+      >
 
         <video
           v-if="project.videoUrl"
@@ -237,11 +243,29 @@ const onTimeUpdate = () => {
   }
 };
 
+const videoRatio = ref(16 / 9);
+
 const onLoadedMetadata = () => {
   if (videoRef.value) {
     duration.value = videoRef.value.duration;
+    const { videoWidth, videoHeight } = videoRef.value;
+    if (videoWidth && videoHeight) {
+      videoRatio.value = videoWidth / videoHeight;
+    }
   }
 };
+
+onMounted(() => {
+  if (project.value?.aspectRatio) {
+    const ratio = project.value.aspectRatio;
+    if (typeof ratio === 'string' && ratio.includes("/")) {
+      const [w, h] = ratio.split("/").map(Number);
+      if (w && h) videoRatio.value = w / h;
+    } else if (Number(ratio)) {
+      videoRatio.value = Number(ratio);
+    }
+  }
+});
 
 const onEnded = () => {
   isPlaying.value = false;
