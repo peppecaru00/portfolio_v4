@@ -10,9 +10,9 @@
           to="/"
         >
           <span class="transform text-4xl font-secondary tracking-widest text-center whitespace-nowrap block">
-            Directed By 
+            Shot by 
           </span>
-          <span class="text-5xl font-primary translate-y-[-1rem]  uppercase font-bold text-center whitespace-nowrap block">
+          <span class="text-6xl font-primary translate-y-[-1.2rem]  uppercase font-[900] text-center whitespace-nowrap block">
             GIUSEPPE CARUSO
           </span>
         </NuxtLink>
@@ -97,7 +97,7 @@
               <NuxtLink to="https://vimeo.com/giuseppecarusodirector" target="_blank">Vimeo</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="tel:+39 3347043970">+39 3347043970</NuxtLink>
+              <NuxtLink to="tel:+39 3347043970">+39 3925808834</NuxtLink>
             </li>
           </ul>
         </div>

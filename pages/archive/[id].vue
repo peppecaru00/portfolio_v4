@@ -14,14 +14,24 @@
           v-if="project.videoUrl"
           ref="videoRef"
           class="absolute w-full h-full object-contain top-0 left-0 z-10 transition-opacity duration-300 opacity-100"
+          :class="{ 'opacity-0': !isPlaying && !currentTime }"
           playsinline
-          preload="metadata"
+          preload="none"
+          :poster="project.image"
           :src="project.videoUrl"
           @timeupdate="onTimeUpdate"
           @loadedmetadata="onLoadedMetadata"
           @ended="onEnded"
           @click="togglePlay"
         ></video>
+
+        <!-- Placeholder Image (Poster fallback for better control) -->
+        <NuxtImg
+          v-if="project.image && !isPlaying && currentTime === 0"
+          :src="project.image"
+          class="absolute w-full h-full object-contain top-0 left-0 z-0"
+          alt="Video Poster"
+        />
 
         <!-- Center Play Button -->
         <button
@@ -125,12 +135,12 @@
     <section 
       v-if="galleryImages.length" 
       class="container grid gap-2.5 pt-12 md:pt-44"
-      :class="isVerticalGallery ? 'grid-cols-1 md:grid-cols-4' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'"
+      :class="isVerticalGallery ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2'"
     >
       <div
         v-for="(img, index) in galleryImages"
         :key="index"
-        :class="isVerticalGallery ? 'col-span-1' : (index % 3 === 0 ? 'col-span-full lg:col-span-2' : 'col-span-full md:col-span-1 lg:col-span-1')"
+        class="col-span-1"
         :data-gallery-index="index"
       >
         <figure class="w-full h-auto rounded-md overflow-hidden reveal-fade">
@@ -139,7 +149,6 @@
             class="w-full h-auto rounded-md opacity-100"
             loading="lazy"
             :src="img"
-            sizes="sm:100vw md:50vw"
             format="webp"
           />
         </figure>
@@ -162,7 +171,6 @@
                 :class="nextProject.coverVideo ? 'cover transition-opacity duration-300 opacity-100 group-hover:opacity-0' : 'cover transition-opacity duration-300 opacity-100'"
                 loading="lazy"
                 :src="nextProject.image"
-                sizes="sm:100vw md:50vw"
                 format="webp"
               />
               <video
@@ -206,6 +214,7 @@
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useProjects } from "~/composables/useProjects";
+import imageRatios from "~/data/image-ratios.json";
 
 const route = useRoute();
 const { projects, getProjectById } = useProjects();
@@ -335,8 +344,17 @@ const filteredMetaData = computed(() => {
 });
 
 const isVerticalGallery = computed(() => {
+  if (!galleryImages.value.length) return false;
+  
+  // Check the first image in the gallery to determine the overall layout
+  const firstImagePath = galleryImages.value[0];
+  const ratio = (imageRatios as Record<string, string>)[firstImagePath];
+  
+  if (ratio === 'vertical') return true;
+
+  // Fallback to meta.json if ratio JSON doesn't have it
   const meta = project.value?.metaData || {};
-  return meta.galleryAspectRatio === 'vertical' || meta.galleryAspectRation === 'vertical';
+  return meta.galleryAspectRatio === 'vertical';
 });
 
 const allGalleries = import.meta.glob(
