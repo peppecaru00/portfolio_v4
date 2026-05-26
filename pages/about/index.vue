@@ -110,7 +110,7 @@
         class="fixed inset-0 overflow-hidden size-full opacity-45 transtion-opacity duration-300 pointer-events-none opacity-100"
         height="1066"
         loading="lazy"
-        src="https://cdn.sanity.io/images/x9j3wb78/production/00ec95f37dc2b4247654d55a5a395acca292ff0c-1600x1066.webp"
+        src="/about-bg.webp"
         width="1600"
       />
     </figure>

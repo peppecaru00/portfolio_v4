@@ -3,6 +3,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: "2026-04-30",
   devtools: { enabled: true },
+  experimental: {
+    appManifest: false
+  },
   modules: ["@nuxt/image"],
   vite: {
     plugins: [

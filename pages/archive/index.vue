@@ -2,13 +2,25 @@
   <div class="flex flex-col pt-24 pb-12 md:pt-36 md:pb-24 gap-y-12 md:gap-y-24">
     <nav class="container flex items-center justify-center overflow-x-auto scrollbar-none">
       <div class="inline-flex gap-x-2.5">
-        <button class="active button whitespace-nowrap">Videos</button>
-        <button class="button whitespace-nowrap">Photos</button>
+        <button 
+          class="button whitespace-nowrap" 
+          :class="{ active: activeTab === 'video' }" 
+          @click="activeTab = 'video'"
+        >
+          Videos
+        </button>
+        <button 
+          class="button whitespace-nowrap" 
+          :class="{ active: activeTab === 'photo' }" 
+          @click="activeTab = 'photo'"
+        >
+          Photos
+        </button>
       </div>
     </nav>
     <section class="container grid grid-cols-1 md:grid-cols-2 gap-2.5">
       <NuxtLink
-        v-for="project in projects"
+        v-for="project in filteredProjects"
         :key="project.id"
         class="relative overflow-hidden group rounded-md transition-opacity duration-500 opacity-100 reveal-fade"
         :to="`/archive/${project.id}`"
@@ -52,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from "vue";
 import { useProjects } from "~/composables/useProjects";
 
 useSeoMeta({
@@ -64,15 +76,25 @@ useSeoMeta({
 
 const { projects } = useProjects();
 
-onMounted(() => {
-  document.body.className = "page-archive";
+const activeTab = useState<'video' | 'photo'>('archive-active-tab', () => 'video');
 
-  const observer = new IntersectionObserver(
+const filteredProjects = computed(() => {
+  return projects.filter((project) => project.type === activeTab.value);
+});
+
+let observer: IntersectionObserver | null = null;
+
+const observeElements = () => {
+  if (observer) {
+    observer.disconnect();
+  }
+
+  observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
+          observer?.unobserve(entry.target);
         }
       });
     },
@@ -80,7 +102,24 @@ onMounted(() => {
   );
 
   document.querySelectorAll(".reveal-fade").forEach((el) => {
-    observer.observe(el);
+    observer?.observe(el);
   });
+};
+
+watch(activeTab, () => {
+  nextTick(() => {
+    observeElements();
+  });
+});
+
+onMounted(() => {
+  document.body.className = "page-archive";
+  observeElements();
+});
+
+onBeforeUnmount(() => {
+  if (observer) {
+    observer.disconnect();
+  }
 });
 </script>

@@ -1,0 +1,1 @@
+import"./B0vHYmBE.js";const e=""+new URL("MyLamination-5.SlyAbUEr.webp",import.meta.url).href;export{e as default};

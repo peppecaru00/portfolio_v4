@@ -11,16 +11,17 @@ export interface Project {
   description?: string;
   metaData?: Record<string, any>;
   coverVideo?: string;
+  type: "video" | "photo";
 }
 
-const metaFiles = import.meta.glob("/public/projects/*/meta.json", {
+const projectFiles = import.meta.glob("/public/projects/*/project.json", {
   eager: true,
   import: "default",
 });
 const coverFiles = import.meta.glob("/public/projects/**/*.{jpg,jpeg,png,webp,gif,mp4,webm,mov}");
 const videoFiles = import.meta.glob("/public/projects/**/*.{mp4,webm,mov}");
 
-export const projects: Project[] = Object.entries(metaFiles).map(
+export const projects: Project[] = Object.entries(projectFiles).map(
   ([path, meta]: [string, any]) => {
     const normalizedPath = path.replace(/\\/g, "/");
     const parts = normalizedPath.split("/");
@@ -31,6 +32,7 @@ export const projects: Project[] = Object.entries(metaFiles).map(
       title,
       category,
       year,
+      date,
       videoUrl,
       aspectRatio,
       description,
@@ -68,7 +70,7 @@ export const projects: Project[] = Object.entries(metaFiles).map(
       return normalizedF.startsWith(projectPathPrefix) && !normalizedF.includes("/cover.");
     });
 
-    // If meta.json didn't provide a videoUrl, try to find the best match
+    // If project.json didn't provide a videoUrl, try to find the best match
     if (!resolvedVideo) {
       if (mainVideoFile) {
         resolvedVideo = mainVideoFile.replace("/public", "");
@@ -77,17 +79,22 @@ export const projects: Project[] = Object.entries(metaFiles).map(
       }
     }
 
+    // Determine type: if any video files are present (resolvedVideo/coverVideoUrl) or video fields in meta
+    const hasVideo = !!(resolvedVideo || coverVideoUrl || rest.youtubeUrl || rest.vimeoUrl || videoUrl);
+    const projectType = hasVideo ? "video" : "photo";
+
     return {
       id,
       title: title || id,
       category: category || "",
-      year: year || "",
+      year: year || (date ? date.split("-")[0] : "") || "",
       image: resolvedImage,
       videoUrl: resolveMediaUrl(resolvedVideo),
       aspectRatio: aspectRatio,
       description: description,
       metaData: rest,
       coverVideo: resolveMediaUrl(coverVideoUrl),
+      type: projectType,
     };
   },
 ).sort((a, b) => b.year.localeCompare(a.year));
