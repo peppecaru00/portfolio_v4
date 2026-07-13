@@ -1,0 +1,20 @@
+{
+  "title": "Making of Pasta",
+  "client": "Cantina Modica",
+  "year": "2026",
+  "category": "Aestetic Reel",
+  "description": "A visual storytelling about traditional pasta making in Cantina Modica, based in Noto.",
+  "services": [
+    "Shooting",
+    "Color Grading",
+    "Editing"
+  ],
+  "shotOn": [
+    "Lumix S9",
+    "Takumar 50mm SMC f/1.4"
+  ],
+  "videoUrl": "https://peppecaruso-portfolio-storage.s3.eu-north-1.amazonaws.com/Pasta_4k.mp4",
+  "toolsUsed": [
+    "DaVinci Resolve"
+  ]
+}

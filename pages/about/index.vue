@@ -104,10 +104,10 @@
         </div>
       </article>
     </div>
-    <figure alt="About" class="fixed inset-0 overflow-hidden size-full opacity-45">
+    <figure class="fixed inset-0 overflow-hidden size-full opacity-45">
       <img
         alt="About background"
-        class="fixed inset-0 overflow-hidden size-full opacity-45 transtion-opacity duration-300 pointer-events-none opacity-100"
+        class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 pointer-events-none"
         height="1066"
         loading="lazy"
         src="/about-bg.webp"

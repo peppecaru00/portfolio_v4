@@ -1,7 +1,7 @@
 {
-  "_hash": "RIgNYmna2jpJz8jWeCziVImAevlCMU7UAZ7dgG81xak",
+  "_hash": "MRXB5ZIMU0rWDNloxIrfdiqyPfiXwilgtH6rcRrAlFA",
   "project": {
-    "rootDir": "C:/Users/carus/Documents/Websites/portfolio_v4"
+    "rootDir": "/home/peppecar/Antigravity/portfolio_v4"
   },
   "versions": {
     "nuxt": "3.21.4"
