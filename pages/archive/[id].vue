@@ -8,6 +8,9 @@
           aspectRatio: videoRatio,
           maxWidth: `calc(100svh * ${videoRatio})`
         }"
+        @mousemove="triggerControls"
+        @touchstart="triggerControls"
+        @mouseleave="onMouseLeaveFigure"
       >
 
         <video
@@ -43,22 +46,33 @@
         </button>
 
         <!-- Bottom Controls -->
-        <div v-if="project.videoUrl" class="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-black/80 to-transparent z-30 flex items-end pb-8 px-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div class="flex items-center w-full gap-4 text-xs font-mono text-white/90">
-            <!-- Play/Pause -->
-            <button @click="togglePlay" class="hover:text-white uppercase tracking-widest flex items-center min-w-[80px] gap-1">
-              <svg v-if="isPlaying" class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-              <svg v-else class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              <span>{{ isPlaying ? 'Pause' : 'Play' }}</span>
-            </button>
-            
-            <!-- Time -->
-            <div class="tracking-widest whitespace-nowrap">
-              {{ formatTime(currentTime) }} / {{ formatTime(duration) }}
+        <div 
+          v-if="project.videoUrl" 
+          class="absolute bottom-0 inset-x-0 h-28 md:h-24 bg-gradient-to-t from-black/80 to-transparent z-30 flex items-end pb-4 px-4 md:pb-8 md:px-8 transition-opacity duration-300"
+          :class="showControls ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'"
+          @click.stop
+          @touchstart.stop="cancelControlsTimeout"
+          @mouseenter="cancelControlsTimeout"
+          @mouseleave="triggerControls"
+        >
+          <div class="flex flex-wrap md:flex-nowrap items-center w-full gap-y-3 md:gap-4 text-xs font-mono text-white/90">
+            <!-- Left-aligned controls (Play/Pause, Time) -->
+            <div class="flex items-center gap-4 order-2 md:order-1">
+              <!-- Play/Pause -->
+              <button @click="togglePlay" class="hover:text-white uppercase tracking-widest flex items-center min-w-[80px] gap-1">
+                <svg v-if="isPlaying" class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                <svg v-else class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <span>{{ isPlaying ? 'Pause' : 'Play' }}</span>
+              </button>
+              
+              <!-- Time -->
+              <div class="tracking-widest whitespace-nowrap">
+                {{ formatTime(currentTime) }} / {{ formatTime(duration) }}
+              </div>
             </div>
 
-            <!-- Seekbar -->
-            <div class="flex-1 mx-4 flex items-center relative h-1.5">
+            <!-- Seekbar (Full width on mobile, inline flex-1 on desktop) -->
+            <div class="w-full md:flex-1 order-1 md:order-2 mx-0 md:mx-4 flex items-center relative h-4 md:h-1.5">
               <!-- Background Bar -->
               <div class="absolute inset-x-0 h-[1.5px] bg-white/20 rounded-full"></div>
               <!-- Progress Bar -->
@@ -77,16 +91,19 @@
               />
             </div>
 
-            <!-- Mute/Unmute -->
-            <button @click="toggleMute" class="hover:text-white min-w-[24px] flex justify-center">
-              <svg v-if="isMuted" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path></svg>
-              <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
-            </button>
+            <!-- Right-aligned controls (Mute, Fullscreen) -->
+            <div class="flex items-center gap-4 ml-auto order-3 md:order-3">
+              <!-- Mute/Unmute -->
+              <button @click="toggleMute" class="hover:text-white min-w-[24px] flex justify-center">
+                <svg v-if="isMuted" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path></svg>
+                <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+              </button>
 
-            <!-- Fullscreen -->
-            <button @click="toggleFullscreen" class="hover:text-white ml-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
-            </button>
+              <!-- Fullscreen -->
+              <button @click="toggleFullscreen" class="hover:text-white ml-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+              </button>
+            </div>
           </div>
         </div>
       </figure>
@@ -211,7 +228,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, onBeforeUnmount, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useProjects } from "~/composables/useProjects";
 import imageRatios from "~/data/image-ratios.json";
@@ -228,6 +245,46 @@ const currentTime = ref(0);
 const duration = ref(0);
 const isMuted = ref(false);
 
+const showControls = ref(true);
+let controlsTimeout = null as any;
+
+const triggerControls = () => {
+  showControls.value = true;
+  if (controlsTimeout) {
+    clearTimeout(controlsTimeout);
+    controlsTimeout = null;
+  }
+  if (isPlaying.value) {
+    controlsTimeout = setTimeout(() => {
+      showControls.value = false;
+    }, 3000);
+  }
+};
+
+const cancelControlsTimeout = () => {
+  showControls.value = true;
+  if (controlsTimeout) {
+    clearTimeout(controlsTimeout);
+    controlsTimeout = null;
+  }
+};
+
+const onMouseLeaveFigure = () => {
+  if (isPlaying.value) {
+    showControls.value = false;
+    if (controlsTimeout) {
+      clearTimeout(controlsTimeout);
+      controlsTimeout = null;
+    }
+  }
+};
+
+onBeforeUnmount(() => {
+  if (controlsTimeout) {
+    clearTimeout(controlsTimeout);
+  }
+});
+
 const formatTime = (timeInSeconds: number) => {
   if (isNaN(timeInSeconds)) return "00:00";
   const m = Math.floor(timeInSeconds / 60).toString().padStart(2, "0");
@@ -240,9 +297,11 @@ const togglePlay = () => {
   if (videoRef.value.paused) {
     videoRef.value.play();
     isPlaying.value = true;
+    triggerControls();
   } else {
     videoRef.value.pause();
     isPlaying.value = false;
+    cancelControlsTimeout();
   }
 };
 
@@ -278,6 +337,7 @@ onMounted(() => {
 
 const onEnded = () => {
   isPlaying.value = false;
+  cancelControlsTimeout();
 };
 
 const seek = (event: Event) => {
