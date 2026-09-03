@@ -62,7 +62,7 @@ onMounted(() => {
         class="px-5 opacity-40 group hover:opacity-100 transition-opacity cursor-pointer flex-1 text-center nth-[4]:hidden nth-[5]:hidden xl:nth-[4]:block 2xl:nth-[5]:block reveal-fade"
         :to="`/archive/${project.id}`"
       >
-        <h3 class="text-[36px] font-secondary -mb-4">{{ project.category }}</h3>
+        <h3 class="text-xs font-secondary lowercase tracking-widest text-primary-dark mb-1">{{ project.category }}</h3>
         <h2 class="text-sm leading-none uppercase">
           {{ project.title }}
         </h2>

@@ -9,10 +9,10 @@
           class="transition-all duration-1000 flex flex-col items-center opacity-100"
           to="/"
         >
-          <span class="transform text-2xl md:text-4xl font-secondary tracking-widest text-center whitespace-nowrap block">
+          <span class="transform text-xs md:text-sm font-secondary tracking-widest lowercase text-center whitespace-nowrap block mb-1">
             Shot by 
           </span>
-          <span class="text-3xl md:text-6xl font-primary translate-y-[-0.7rem] md:translate-y-[-1.2rem] uppercase font-[900] text-center whitespace-nowrap block">
+          <span class="text-3xl md:text-6xl font-primary uppercase font-[900] text-center whitespace-nowrap block">
             GIUSEPPE CARUSO
           </span>
         </NuxtLink>

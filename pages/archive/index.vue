@@ -52,7 +52,7 @@
         </div>
         <div class="absolute inset-0 z-30 flex flex-col items-center justify-center p-4 opacity-0 bg-black/50 group-hover:opacity-100 transition-opacity duration-500">
           <div class="w-full max-w-xl text-balance mx-auto text-center">
-            <h4 class="text-[36px] font-secondary -mb-4.5">
+            <h4 class="text-xs font-secondary lowercase tracking-widest text-primary-dark mb-1">
               {{ project.category }}
             </h4>
             <h3 class="text-lg uppercase">{{ project.title }}</h3>

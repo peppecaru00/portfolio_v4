@@ -202,8 +202,8 @@
               ></video>
             </figure>
           </div>
-          <div class="-mt-4.5 text-center relative z-20">
-            <h4 class="font-secondary text-[36px] -mb-4.5">
+          <div class="mt-2 text-center relative z-20">
+            <h4 class="font-secondary text-xs lowercase tracking-widest text-primary-dark mb-1">
               {{ nextProject.category }}
             </h4>
             <h3 class="text-lg uppercase">{{ nextProject.title }}</h3>

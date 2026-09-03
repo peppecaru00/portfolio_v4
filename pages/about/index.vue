@@ -47,7 +47,7 @@
         </div>
         <div class="flex flex-col gap-y-12">
           <div class="flex flex-col gap-y-4">
-            <h4 class="text-xl font-secondary text-primary-dark border-b border-primary-dark/30 pb-2">
+            <h4 class="text-sm font-secondary lowercase tracking-wider text-primary-dark border-b border-primary-dark/30 pb-2">
               Work Experience
             </h4>
             <div class="flex flex-col gap-y-6">
@@ -70,7 +70,7 @@
             </div>
           </div>
           <div class="flex flex-col gap-y-4">
-            <h4 class="text-xl font-secondary text-primary-dark border-b border-primary-dark/30 pb-2">
+            <h4 class="text-sm font-secondary lowercase tracking-wider text-primary-dark border-b border-primary-dark/30 pb-2">
               Education
             </h4>
             <div class="flex flex-col gap-y-6">
@@ -91,7 +91,7 @@
             </div>
           </div>
           <div class="flex flex-col gap-y-4">
-            <h4 class="text-xl font-secondary text-primary-dark border-b border-primary-dark/30 pb-2">
+            <h4 class="text-sm font-secondary lowercase tracking-wider text-primary-dark border-b border-primary-dark/30 pb-2">
               Technical Knowledge
             </h4>
             <ul class="flex flex-col text-base gap-y-3 opacity-80">
