@@ -20,7 +20,7 @@
           :class="{ 'opacity-0': !isPlaying && !currentTime }"
           playsinline
           preload="none"
-          :poster="project.image"
+          :poster="effectiveImage"
           :src="project.videoUrl"
           @timeupdate="onTimeUpdate"
           @loadedmetadata="onLoadedMetadata"
@@ -30,8 +30,8 @@
 
         <!-- Placeholder Image (Poster fallback for better control) -->
         <NuxtImg
-          v-if="project.image && !isPlaying && currentTime === 0"
-          :src="project.image"
+          v-if="effectiveImage && !isPlaying && currentTime === 0"
+          :src="effectiveImage"
           class="absolute w-full h-full object-contain top-0 left-0 z-0"
           alt="Video Poster"
         />
@@ -228,15 +228,41 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onBeforeUnmount, ref } from "vue";
+import { computed, onMounted, onBeforeUnmount, ref, watch, nextTick } from "vue";
 import { useRoute } from "vue-router";
 import { useProjects } from "~/composables/useProjects";
 import imageRatios from "~/data/image-ratios.json";
+import { isS3FolderUrl, fetchPhotosFromS3Folder } from "~/utils/s3";
 
 const route = useRoute();
 const { projects, getProjectById } = useProjects();
 
 const project = computed(() => getProjectById(route.params.id as string));
+
+// Fetch remote folder photos if photosUrl is a folder link
+const { data: s3Photos } = await useAsyncData(
+  `s3-photos-${route.params.id}`,
+  async () => {
+    const photosUrl = project.value?.photosUrl;
+    if (
+      typeof photosUrl === "string" &&
+      isS3FolderUrl(photosUrl) &&
+      (!project.value?.photos || project.value.photos.length === 0)
+    ) {
+      try {
+        const res = await $fetch<{ photos: string[] }>("/api/s3-photos", {
+          query: { url: photosUrl },
+        }).catch(() => null);
+        if (res?.photos?.length) return res.photos;
+        return await fetchPhotosFromS3Folder(photosUrl);
+      } catch (e) {
+        console.error("Error fetching S3 photos:", e);
+      }
+    }
+    return [];
+  },
+  { watch: [() => project.value?.photosUrl] }
+);
 
 // Video Player Logic
 const videoRef = ref<HTMLVideoElement | null>(null);
@@ -393,6 +419,11 @@ const filteredMetaData = computed(() => {
   delete meta.youtubeUrl;
   delete meta.vimeoUrl;
   delete meta.videoUrl;
+  delete meta.photosUrl;
+  delete meta.photosUrls;
+  delete meta.photos;
+  delete meta.coverUrl;
+  delete meta.coverImage;
   
   // Remove any keys related to aspect ratio
   return Object.keys(meta)
@@ -424,10 +455,22 @@ const allGalleries = import.meta.glob(
 
 const galleryImages = computed(() => {
   if (!project.value) return [];
+  if (s3Photos.value && s3Photos.value.length > 0) {
+    return s3Photos.value;
+  }
+  if (project.value.photos && project.value.photos.length > 0) {
+    return project.value.photos;
+  }
   const prefix = `/public/projects/${project.value.id}/images/`;
   return Object.keys(allGalleries)
     .filter((path) => path.startsWith(prefix))
     .map((path) => path.replace("/public", ""));
+});
+
+const effectiveImage = computed(() => {
+  if (project.value?.image) return project.value.image;
+  if (galleryImages.value.length > 0) return galleryImages.value[0];
+  return "";
 });
 
 useSeoMeta({
@@ -435,8 +478,8 @@ useSeoMeta({
   ogTitle: computed(() => project.value?.title || "Project"),
   description: computed(() => project.value?.description || project.value?.category),
   ogDescription: computed(() => project.value?.description || project.value?.category),
-  ogImage: computed(() => project.value?.image),
-  twitterImage: computed(() => project.value?.image),
+  ogImage: computed(() => effectiveImage.value),
+  twitterImage: computed(() => effectiveImage.value),
 });
 
 onMounted(() => {
@@ -457,6 +500,14 @@ onMounted(() => {
 
   document.querySelectorAll(".reveal-fade").forEach((el) => {
     observer.observe(el);
+  });
+
+  watch(galleryImages, () => {
+    nextTick(() => {
+      document.querySelectorAll(".reveal-fade").forEach((el) => {
+        observer.observe(el);
+      });
+    });
   });
 });
 </script>

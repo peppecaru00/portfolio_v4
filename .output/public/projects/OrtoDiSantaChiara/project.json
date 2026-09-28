@@ -1,0 +1,20 @@
+{
+  "title": "Orto di Santa Chiara",
+  "client": "Cantina Modica",
+  "year": "2026",
+  "category": "Aesthetic Reel",
+  "description": "A visual presentation of the Orto di Santa Chiara, highlighting the preparation of the location, pizza and bread. ",
+  "services": [
+    "Shooting",
+    "Color Grading",
+    "Editing"
+  ],
+  "shotOn": [
+    "Lumix S9",
+    "Lumix S 20-60mm"
+  ],
+  "videoUrl": "https://peppecaruso-portfolio-storage.s3.eu-north-1.amazonaws.com/OrtoDiSantaChiara_2.mp4",
+  "toolsUsed": [
+    "DaVinci Resolve"
+  ]
+}

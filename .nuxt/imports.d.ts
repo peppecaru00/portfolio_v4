@@ -32,5 +32,5 @@ export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composab
 export { defineLazyHydrationComponent } from '#app/composables/lazy-hydration';
 export { useProjects } from '../composables/useProjects';
 export { resolveMediaUrl } from '../utils/media';
+export { isS3FolderUrl, fetchPhotosFromS3Folder } from '../utils/s3';
 export { useImage } from '../node_modules/@nuxt/image/dist/runtime/composables';
-export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';

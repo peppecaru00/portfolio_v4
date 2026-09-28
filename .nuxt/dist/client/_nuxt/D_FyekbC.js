@@ -1,0 +1,1 @@
+import"./DBo4MeDU.js";const t=""+new URL("merlo_08.BUESYY5A.webp",import.meta.url).href;export{t as default};

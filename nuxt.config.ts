@@ -41,5 +41,10 @@ export default defineNuxtConfig({
   image: {
     quality: 85,
     format: ["webp", "jpg"],
+    domains: [
+      "peppecaruso-portfolio-storage.s3.eu-north-1.amazonaws.com",
+      "s3.eu-north-1.amazonaws.com",
+      "s3.amazonaws.com",
+    ],
   },
 });

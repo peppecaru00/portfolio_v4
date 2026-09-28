@@ -1,5 +1,5 @@
 import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { hasInjectionContext, inject, getCurrentInstance, defineAsyncComponent, defineComponent, h, computed, unref, shallowRef, provide, shallowReactive, ref, Suspense, Fragment, createApp, onErrorCaptured, onServerPrefetch, createVNode, resolveDynamicComponent, reactive, effectScope, mergeProps, withCtx, getCurrentScope, toRef, nextTick, isReadonly, useSSRContext, isRef, isShallow, isReactive, toRaw } from 'vue';
-import { m as parseURL, f as encodePath, n as decodePath, o as hasProtocol, q as isScriptProtocol, l as joinURL, w as withQuery, r as sanitizeStatusCode, v as getContext, $ as $fetch, x as baseURL, y as defu, z as createHooks, j as createError$1, A as executeAsync } from '../_/nitro.mjs';
+import { k as createError$1, n as parseURL, i as encodePath, o as decodePath, q as hasProtocol, r as isScriptProtocol, m as joinURL, w as withQuery, v as sanitizeStatusCode, x as getContext, $ as $fetch, y as baseURL, z as defu, A as createHooks, B as executeAsync } from '../_/nitro.mjs';
 import { useRoute as useRoute$1, RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
 import { ssrRenderSuspense, ssrRenderComponent, ssrRenderVNode } from 'vue/server-renderer';
 import { u as useSeoMeta$1, a as useHead$1, h as headSymbol } from '../routes/renderer.mjs';
@@ -28,6 +28,7 @@ if (!("global" in globalThis)) {
 }
 const appLayoutTransition = false;
 const nuxtLinkDefaults = { "componentName": "NuxtLink" };
+const asyncDataDefaults = { "value": null, "errorValue": null, "deep": true };
 const appId = "nuxt-app";
 function getNuxtAppCtx(id = appId) {
   return getContext(id, {
@@ -410,22 +411,22 @@ const _routes = [
   {
     name: "index",
     path: "/",
-    component: () => import('./index-C_AjkYjv.mjs')
+    component: () => import('./index-B3qfOjud.mjs')
   },
   {
     name: "about",
     path: "/about",
-    component: () => import('./index-4vwqv920.mjs')
+    component: () => import('./index-B3L86ynN.mjs')
   },
   {
     name: "archive-id",
     path: "/archive/:id()",
-    component: () => import('./_id_-ul45-g80.mjs')
+    component: () => import('./_id_-BWwzHQNF.mjs')
   },
   {
     name: "archive",
     path: "/archive",
-    component: () => import('./index-yvbYWbX3.mjs')
+    component: () => import('./index-x-lK7d0b.mjs')
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -826,7 +827,7 @@ const plugins = [
   components_plugin_z4hgvsiddfKkfXTP6M8M4zG5Cb7sGnDhcryKVM45Di4
 ];
 const layouts = {
-  default: defineAsyncComponent(() => import('./default-D0sGPk9d.mjs').then((m) => m.default || m))
+  default: defineAsyncComponent(() => import('./default-BXS3He-2.mjs').then((m) => m.default || m))
 };
 const routeRulesMatcher = _routeRulesMatcher;
 const LayoutLoader = defineComponent({
@@ -1117,7 +1118,7 @@ const _sfc_main$1 = {
     const statusText = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-5byjGODt.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-BDmFH4Gd.mjs'));
     const _Error = defineAsyncComponent(() => import('./error-500-e71MDZh3.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
@@ -1210,5 +1211,5 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { useSeoMeta as a, useNuxtApp as b, useRuntimeConfig as c, useRouter as d, entry_default as default, encodeRoutePath as e, nuxtLinkDefaults as f, navigateTo as n, resolveRouteObject as r, useHead as u };
+export { useSeoMeta as a, useNuxtApp as b, asyncDataDefaults as c, createError as d, entry_default as default, useRuntimeConfig as e, useRouter as f, encodeRoutePath as g, nuxtLinkDefaults as h, navigateTo as n, resolveRouteObject as r, useHead as u };
 //# sourceMappingURL=server.mjs.map

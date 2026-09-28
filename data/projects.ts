@@ -7,6 +7,8 @@ export interface Project {
   year: string;
   image: string;
   videoUrl?: string;
+  photos?: string[];
+  photosUrl?: string | string[];
   aspectRatio?: string;
   description?: string;
   metaData?: Record<string, any>;
@@ -34,6 +36,11 @@ export const projects: Project[] = Object.entries(projectFiles).map(
       year,
       date,
       videoUrl,
+      photosUrl,
+      photosUrls,
+      photos,
+      coverUrl,
+      coverImage,
       aspectRatio,
       description,
       coverVideo,
@@ -79,6 +86,33 @@ export const projects: Project[] = Object.entries(projectFiles).map(
       }
     }
 
+    // 3. Resolve Photos from AWS S3 or remote URLs
+    let resolvedPhotos: string[] = [];
+    const rawPhotosList = photosUrl || photosUrls;
+
+    if (Array.isArray(rawPhotosList)) {
+      resolvedPhotos = rawPhotosList.map((url: string) => resolveMediaUrl(url));
+    } else if (typeof rawPhotosList === "string" && rawPhotosList.trim()) {
+      const trimmedUrl = rawPhotosList.trim();
+      if (Array.isArray(photos) && photos.length > 0) {
+        const baseUrl = trimmedUrl.endsWith("/") ? trimmedUrl : `${trimmedUrl}/`;
+        resolvedPhotos = photos.map((filename: string) => resolveMediaUrl(`${baseUrl}${filename}`));
+      } else {
+        resolvedPhotos = [resolveMediaUrl(trimmedUrl)];
+      }
+    } else if (Array.isArray(photos) && photos.length > 0) {
+      resolvedPhotos = photos.map((p: string) => resolveMediaUrl(p));
+    }
+
+    // Fallback for cover image if no local cover file was found
+    if (!resolvedImage) {
+      if (coverUrl || coverImage) {
+        resolvedImage = resolveMediaUrl(coverUrl || coverImage);
+      } else if (resolvedPhotos.length > 0) {
+        resolvedImage = resolvedPhotos[0];
+      }
+    }
+
     // Determine type: if any video files are present (resolvedVideo/coverVideoUrl) or video fields in meta
     const hasVideo = !!(resolvedVideo || coverVideoUrl || rest.youtubeUrl || rest.vimeoUrl || videoUrl);
     const projectType = hasVideo ? "video" : "photo";
@@ -90,6 +124,8 @@ export const projects: Project[] = Object.entries(projectFiles).map(
       year: year || (date ? date.split("-")[0] : "") || "",
       image: resolvedImage,
       videoUrl: resolveMediaUrl(resolvedVideo),
+      photos: resolvedPhotos,
+      photosUrl: rawPhotosList,
       aspectRatio: aspectRatio,
       description: description,
       metaData: rest,
